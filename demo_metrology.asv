@@ -1,34 +1,39 @@
 clc;
+close all;
+clear all;
 
 %% Define constants
 
-% Number of samples
-N = 20;
-% Rotation angle
-rt = 5;
-
-% Image size
-r = 50;
-c = 50;
+N  = 100; % Number of samples
+rt = 45; % Rotation angle
+r  = 100; % Image size (rows)
+c  = 100; % Image size (columns)
 
 % Image noise parameters
-M = 0; %Mean
-V = 5; %Variance
+M  = 0; %Mean
+V  = 1; %Variance
 
-%% Create test images
+%% Create test reference image
 
 I = zeros(r,c);
 I(15:end-15,15:end-15) = 1;
-% Add gaussian noise
-I = imnoise(I,'gaussian',0,5);
+In = imnoise(I,'gaussian', M, V); % Add gaussian noise
 
-I_r = imrotate(I, rt, 'bilinear', 'crop');
-% Add
-I_r = imnoise(I_r,'gaussian',0,5);
+nn = I-In;
 
+%% Create fault image by rotation
+I_r = imrotate(I, rt, 'bilinear', 'crop'); % Rotate image
+
+I_rn = I_r + nn;
+%% Cascade to create batch
 A = repmat(I,1,1,N);
+A(:,:,round(N/2)) = I_r;
 
-A(:,:,10) = I_r;
+figure;
+subplot 121
+imshow(I)
+subplot 122
+imshow(I_r)
 
 %% Apply PCA
 
@@ -38,8 +43,20 @@ X = reshape(A, r*c, N);
 
 %% Plot Eigen values of Covariance matrix
 
+figure;
 loglog(LATENT, '*-', 'LineWidth', 2)
 xlabel('Principle Components (PC)');
 ylabel('Var\{PC\} or Eig\{Cov[X]\}');
 grid on
 grid minor
+
+figure;
+%bar(LATENT./sum(LATENT))
+pie(LATENT./sum(LATENT))
+
+%% Calculate PC1 and PC2
+
+figure;
+vbls = cellstr(string(1:N));
+biplot(COEFF(:,1:2),'Scores',SCORE(:,1:2),'VarLabels',vbls)
+
