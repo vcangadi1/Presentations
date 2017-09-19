@@ -3,7 +3,7 @@ close all;
 clear all;
 
 %% Define constants
-N  = 100; % Batch size
+N  = 5; % Batch size
 r  = 50; % Image size (rows)
 c  = 50; % Image size (columns)
 
@@ -12,9 +12,13 @@ M  = 0; %Mean
 V  = 0; %Variance
 
 % Create random orientations and positions
-num_rt = randi([1 5]); % Number of faulty orientation
-rt = randi([1 360],1,num_rt); % Rotation angles
-Pos= randi([1 N],1,length(rt)); % Frame location faulty orientation
+%num_rt = randi([1 5]); % Number of faulty orientation
+%rt = randi([1 360],1,num_rt); % Rotation angles
+%Pos= randi([1 N],1,length(rt)); % Frame location faulty orientation
+
+num_rt = 1;
+rt = 20;
+Pos = 3;
 
 % Create test reference image
 I0 = zeros(r,c);

@@ -122,13 +122,13 @@
 
 \begin{frame}{Size}{Eg: Fasteners, Sub-parts, etc.}
   \begin{itemize}
-  \item { Item in production line must be of same/specified size.
+  \item { Items produced by one process must be of same/specified size.
         \pause }
   \item Whole point (!) of production (Custom or Mass).
 
   \begin{figure}
     \includegraphics[width=0.9\textwidth]{size}
-    \caption{Production line in which item no.$3$ \& $4$ are oversized by $\Delta$x \& $\Delta$y units respectively.}
+    \caption{Production batch in which item no.$3$ \& $4$ are oversized by $\Delta$x \& $\Delta$y units respectively.}
     \label{fig:size_line}
   \end{figure}
 
@@ -141,7 +141,7 @@
 % with the \pause command:
 \begin{frame}{Orientation}{Eg: PCBs, Masks, Sub-parts etc.}
   \begin{itemize}
-  \item Similarly, item in production line must be of same/specific orientation.
+  \item Similarly, items produced by single process must be of same/specific orientation.
   \item Or no anomaly in the expected orientation.
   \begin{figure}
     \includegraphics[width=0.9\textwidth]{orientation}
@@ -185,21 +185,62 @@
 \end{frame}
 
 
-\section{Second Main Section}
+\section{Fault Detection using Multivariate Analysis}
 
-\subsection{Another Subsection}
+\subsection{Production Model and Anomalies}
 
-\begin{frame}{Blocks}
-\begin{block}{Block Title}
-You can also highlight sections of your presentation in a block, with it's own title
-\end{block}
-\begin{theorem}
-There are separate environments for theorems, examples, definitions and proofs.
-\end{theorem}
-\begin{example}
-Here is an example of an example block.
-\end{example}
+\begin{frame}{Production Model}{Assumptions}
+  \begin{itemize}
+    \item Each product is scanned with a camera on top.
+    \item The image is thresholded using standard methods. \\
+    Eg: Otsu's global and Adaptive thresholds to mention a few.
+    \item A batch size of $N$ frames considered.
+    \item Images are sumulated with a series of binary images of size $50\times50$ pixels.
+  \end{itemize}
+  \begin{figure}
+    \includegraphics[width=0.8\textwidth]{model}
+  \end{figure}
 \end{frame}
+
+\begin{frame}{Production Model and Anomalies}{Size and Orientation}
+  \begin{figure}
+    \includegraphics[width=0.8\textwidth]{anomalies_model}
+  \end{figure}
+\end{frame}
+
+\subsection{Principle Component Analysis}
+
+\begin{frame}{Results from $N = 5$}
+  \begin{itemize}
+    \item results of $N = 5$ of both Size and Orientation.
+    \item top left Variance of PC for Size
+    \item top right biplot PC1 vs PC2 for Size
+    \item bottom left Variance of PC for Orientation
+    \item bottom right biplot PC1 vs PC2 for Orientation
+  \end{itemize}
+\end{frame}
+
+\subsection{Testing the robustness of the method}
+
+\begin{frame}{Robustness of PCA}{$N = 100$, Gaussian noise $\mu = 0$, $\sigma^2 = 2$}
+  \begin{itemize}
+    \item $2\times 3$ subplots
+    \item Noisy binary image, Latent, biplot for Size
+    \item Noise binary image, latent, biplot for orientation
+  \end{itemize}
+\end{frame}
+
+%\begin{frame}{Blocks}
+%\begin{block}{Block Title}
+%You can also highlight sections of your presentation in a block, with it's own title
+%\end{block}
+%\begin{theorem}
+%There are separate environments for theorems, examples, definitions and proofs.
+%\end{theorem}
+%\begin{example}
+%Here is an example of an example block.
+%\end{example}
+%\end{frame}
 
 % Placing a * after \section means it will not show in the
 % outline or table of contents.
@@ -207,12 +248,9 @@ Here is an example of an example block.
 
 \begin{frame}{Summary}
   \begin{itemize}
-  \item
-    The \alert{first main message} of your talk in one or two lines.
-  \item
-    The \alert{second main message} of your talk in one or two lines.
-  \item
-    Perhaps a \alert{third message}, but not more than that.
+  \item The \alert{random} number of Image size, Batch size, Num of faulty images, $\Delta\theta$ and Sizes of items are tested with PCA methods.
+  \item PCA is a linear model. Hence \alert{fast} decision maker.
+  \item \alert{Simpler}, \alert{Cost effective} metrological method of fault detection in manufacturing and quality control.
   \end{itemize}
 
   \begin{itemize}
