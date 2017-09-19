@@ -12,9 +12,14 @@ M  = 0; % Mean
 V  = 0; % Variance
 
 % Create random orientations and positions
-num_sz = randi([1 5]); % Number of faulty orientation
-sz1 = randi([1 r/2],1,num_sz); % Size rows
-sz2 = randi([1 c/2],1,num_sz); % Siz columns
+%num_sz = randi([1 5]); % Number of faulty orientation
+%sz1 = randi([1 r/2],1,num_sz); % Size rows
+%sz2 = randi([1 c/2],1,num_sz); % Siz columns
+
+num_sz = 2;
+sz1 = [15 17];
+sz2 = [15 13];
+
 
 Pos= randi([1 N],1,length(sz1)); % Frame location faulty orientation
 
@@ -28,7 +33,7 @@ A = repmat(I,1,1,N);
 
 % Create fault image by rotation
 figure;
-subplot(length(sz1)+1,1,1)
+%subplot(length(sz1)+1,1,1)
 imshow(I)
 title('Size = (15,15)')
 for ii = 1:length(sz1)
@@ -36,7 +41,8 @@ for ii = 1:length(sz1)
     I_s(sz1(ii):end-sz1(ii),sz2(ii):end-sz2(ii)) = 100; % fault in size
     I_s = imnoise(I_s,'gaussian', M, V); % Add gaussian noise
     A(:,:,Pos(ii)) = I_s;
-    subplot(length(sz1)+1,1,ii+1)
+    figure;
+    %subplot(length(sz1)+1,1,ii+1)
     imshow(A(:,:,Pos(ii)))
     title({['Size = (',num2str(sz1(ii)),',',num2str(sz2(ii)),')'];['Frame = ', num2str(Pos(ii))]})
 end
@@ -59,4 +65,4 @@ grid minor
 % Calculate PC1 and PC2
 figure;
 vbls = cellstr(string(1:N));
-biplot(COEFF(:,1:2),'Scores',SCORE(:,1:2),'VarLabels',vbls)
+biplot(COEFF(:,1:2),'Scores',SCORE(:,1:2),'VarLabels',vbls,'Linewidth',2)

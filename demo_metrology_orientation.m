@@ -9,7 +9,7 @@ c  = 50; % Image size (columns)
 
 % Image noise parameters
 M  = 0; %Mean
-V  = 2; %Variance
+V  = 0; %Variance
 
 % Create random orientations and positions
 num_rt = randi([1 5]); % Number of faulty orientation
