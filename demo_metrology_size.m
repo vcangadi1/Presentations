@@ -9,19 +9,19 @@ c  = 50; % Image size (columns)
 
 % Image noise parameters
 M  = 0; % Mean
-V  = 0; % Variance
+V  = 2; % Variance
 
 % Create random orientations and positions
-%num_sz = randi([1 5]); % Number of faulty orientation
-%sz1 = randi([1 r/2],1,num_sz); % Size rows
-%sz2 = randi([1 c/2],1,num_sz); % Siz columns
+num_sz = randi([1 5]); % Number of faulty orientation
+sz1 = randi([1 r/2],1,num_sz); % Size rows
+sz2 = randi([1 c/2],1,num_sz); % Size columns
+Pos= randi([1 N],1,num_sz); % Frame location faulty orientation
 
-num_sz = 2;
-sz1 = [15 17];
-sz2 = [15 13];
+%num_sz = 1;
+%sz1 = 15;
+%sz2 = 15;
+%Pos = 3;
 
-
-Pos= randi([1 N],1,length(sz1)); % Frame location faulty orientation
 
 % Create test reference image
 I0 = zeros(r,c);

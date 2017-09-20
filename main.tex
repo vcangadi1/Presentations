@@ -45,6 +45,8 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
+
+
 \title[Challenges in Mnfg/QC and Faults Detection using PCA]{Challenges in Manufacturing/Quality Control and Detection of Faults in Chain of Manufacturing by Multivariate Analysis.}
 
 % A subtitle is optional and this may be deleted
@@ -104,12 +106,14 @@
 
 % Section and subsections will appear in the presentation overview
 % and table of contents.
-\section{Why do we look at challenges of Manufacturing?}
+\section{Introduction}
+
+\subsection{Why do we look at challenges of Manufacturing?}
 
 
-\begin{frame}{Introduction}{Why do we look at challenges in Manufacturing?}
+\begin{frame}{Why do we look at challenges in Manufacturing?}
   \begin{itemize}
-    \item Important to check the sanity of the production.
+    \item Important to check the sanity of the manufacturing.
     \item Is it producing what it is supposed to be producing?
     \item Are the analytics used in the decision making any sense? \\ Eg: Confusion matrix.
     \item What are the cost associated w.r.t. metrology used? \\ Eg: Time, Complexity and Design.
@@ -122,7 +126,7 @@
 
 \begin{frame}{Size}{Eg: Fasteners, Sub-parts, etc.}
   \begin{itemize}
-  \item { Items produced by one process must be of same/specified size.
+  \item { Items manufactured by one process must be of same/specified size.
         \pause }
   \item Whole point (!) of production (Custom or Mass).
 
@@ -142,10 +146,10 @@
 \begin{frame}{Orientation}{Eg: PCBs, Masks, Sub-parts etc.}
   \begin{itemize}
   \item Similarly, items produced by single process must be of same/specific orientation.
-  \item Or no anomaly in the expected orientation.
+  \item Or no anomaly expected in the orientation.
   \begin{figure}
     \includegraphics[width=0.9\textwidth]{orientation}
-    \caption{Anomaly in the production of item no. $3$. The item is rotated by an angle of $\Delta\theta^\circ$.}
+    \caption{Anomaly in the production of item no. $3$. The item has a defect in its orientation by an angle of $\Delta\theta^\circ$.}
     \label{fig:orientation_line}
   \end{figure}
   % You can also specify when the content should appear
@@ -168,7 +172,8 @@
 
 \begin{frame}{Tolerance}
   \begin{itemize}
-  \item Needed for better judgement of quality of product.
+  \item Needed for better judgement of quality of product.\\
+  Eg: Allowance for $\Delta$x, $\Delta$y and $\Delta\theta$
   \item The errors occurred in measuring the parameters are due to actual physical error or analytical methods used or could be due to vibrations.
   \item It is important to know the source of error to precisely measure the parameters.
   \end{itemize}
@@ -178,8 +183,10 @@
 
 \begin{frame}{Time}{Eg: Sorting in industries}
   \begin{itemize}
-  \item Very crucial when the throughput is of importance.
-  \item The decision making analytical methods must have low (or no) complexity.
+  \item Very crucial when the throughput is of importance.\\
+  Eg: Japanese recycling industry. $2$ tonne in $1$ hr.!
+  \item The decision making analytical methods must have low \\
+  (or no) complexity.
   \item Linear models are preferable.
   \end{itemize}
 \end{frame}
@@ -210,24 +217,43 @@
 
 \subsection{Principle Component Analysis}
 
-\begin{frame}{Results from $N = 5$}
-  \begin{itemize}
-    \item results of $N = 5$ of both Size and Orientation.
-    \item top left Variance of PC for Size
-    \item top right biplot PC1 vs PC2 for Size
-    \item bottom left Variance of PC for Orientation
-    \item bottom right biplot PC1 vs PC2 for Orientation
-  \end{itemize}
+\begin{frame}{Anomaly due to change in Size}{Batch Size $N = 5$, with Gaussian noise, $\mathcal{N}(\mu,\sigma^2)=\mathcal{N}(0,0.25)$}
+  \begin{figure}
+    \includegraphics[width=1\textheight]{N5_Size_Detection}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Anomaly due to change in Orientation}{Batch Size $N = 5$, with Gaussian noise, $\mathcal{N}(\mu,\sigma^2)=\mathcal{N}(0,0.25)$}
+  \begin{figure}
+    \includegraphics[width=1\textheight]{N5_Orientation_Detection}
+  \end{figure}
 \end{frame}
 
 \subsection{Testing the robustness of the method}
 
-\begin{frame}{Robustness of PCA}{$N = 100$, Gaussian noise $\mu = 0$, $\sigma^2 = 2$}
+\begin{frame}{Robustness of PCA}
   \begin{itemize}
-    \item $2\times 3$ subplots
-    \item Noisy binary image, Latent, biplot for Size
-    \item Noise binary image, latent, biplot for orientation
+    \item \texttt{nfaults}$ = $\texttt{randi}([1~5]); \texttt{\textcolor{gray}{\% Number of fault parts}} \\
+    \texttt{\textcolor{gray}{\% -----------Random Size of Parts----------}}
+    \item \texttt{sz1} = \texttt{randi}([1~\texttt{r}/2],~1,~\texttt{nfaults}); \texttt{\textcolor{gray}{\% Size rows}}
+    \item \texttt{sz2} = \texttt{randi}([1~\texttt{c}/2],~1,~\texttt{nfaults}); \texttt{\textcolor{gray}{\% Size columns}}\\
+    \texttt{\textcolor{gray}{\% -----------Random Orientation------------}}
+    \item \texttt{rt} = \texttt{randi}([1~360],~1,~\texttt{nfaults}); \texttt{\textcolor{gray}{\% Rotation angles}} \\
+    \texttt{\textcolor{gray}{\% -------Random location of faults---------}}
+    \item \texttt{Pos} = \texttt{randi}([1~\texttt{N}],~1,~\texttt{nfaults}); \texttt{\textcolor{gray}{\% Locations in stack}}
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Robustness of PCA: Size}{Batch Size $N = 100$, with Gaussian noise, $\mathcal{N}(\mu,\sigma^2)=\mathcal{N}(0,2)$}
+  \begin{figure}
+    \includegraphics[width=1\textheight]{Random_Size_Detection}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Robustness of PCA: Orientation}{Batch Size $N = 100$, with Gaussian noise, $\mathcal{N}(\mu,\sigma^2)=\mathcal{N}(0,2)$}
+  \begin{figure}
+    \includegraphics[width=1\textheight]{Random_Orientation_Detection}
+  \end{figure}
 \end{frame}
 
 %\begin{frame}{Blocks}
@@ -248,8 +274,9 @@
 
 \begin{frame}{Summary}
   \begin{itemize}
-  \item The \alert{random} number of Image size, Batch size, Num of faulty images, $\Delta\theta$ and Sizes of items are tested with PCA methods.
-  \item PCA is a linear model. Hence \alert{fast} decision maker.
+  \item The PCA method is robust in identifying abnormalities in the process.
+  \item \alert{Random} number of faulty images and their locations, $\Delta\theta$ and Sizes have been tested.
+  \item PCA is a linear model. \alert{Fast} decision maker.
   \item \alert{Simpler}, \alert{Cost effective} metrological method of fault detection in manufacturing and quality control.
   \end{itemize}
 
@@ -257,10 +284,7 @@
   \item
     Outlook
     \begin{itemize}
-    \item
-      Something you haven't solved.
-    \item
-      Something else you haven't solved.
+    \item The extent of abnormalities can be studied in depth in Endmember extraction methods such as Vertex Component Analysis (VCA) and random N-findr extraction.
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -273,27 +297,27 @@
 \subsection<presentation>*{For Further Reading}
 
 \begin{frame}[allowframebreaks]
-  \frametitle<presentation>{For Further Reading}
+  \frametitle<presentation>{Open Source Data}
 
   \begin{thebibliography}{10}
 
   \beamertemplatebookbibitems
   % Start with overview books.
 
-  \bibitem{Author1990}
-    A.~Author.
-    \newblock {\em Handbook of Everything}.
-    \newblock Some Press, 1990.
+  \bibitem{vcangadi1}
+    GitHub: vcangadi1
+    \newblock {\em Matlab~Codes, Documentation, \LaTeX~Slides and Data}.
+    \newblock https://github.com/vcangadi1/Presentations
 
 
-  \beamertemplatearticlebibitems
+  %\beamertemplatearticlebibitems
   % Followed by interesting articles. Keep the list short.
 
-  \bibitem{Someone2000}
-    S.~Someone.
-    \newblock On this and that.
-    \newblock {\em Journal of This and That}, 2(1):50--100,
-    2000.
+  %\bibitem{Someone2000}
+  %  S.~Someone.
+  %  \newblock On this and that.
+  %  \newblock {\em Journal of This and That}, 2(1):50--100,
+  %  2000.
   \end{thebibliography}
 \end{frame}
 

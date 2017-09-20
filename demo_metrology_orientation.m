@@ -3,22 +3,22 @@ close all;
 clear all;
 
 %% Define constants
-N  = 5; % Batch size
+N  = 100; % Batch size
 r  = 50; % Image size (rows)
 c  = 50; % Image size (columns)
 
 % Image noise parameters
 M  = 0; %Mean
-V  = 0; %Variance
+V  = 2; %Variance
 
 % Create random orientations and positions
-%num_rt = randi([1 5]); % Number of faulty orientation
-%rt = randi([1 360],1,num_rt); % Rotation angles
-%Pos= randi([1 N],1,length(rt)); % Frame location faulty orientation
+num_rt = randi([1 5]); % Number of faulty orientation
+rt = randi([1 360],1,num_rt); % Rotation angles
+Pos= randi([1 N],1,length(rt)); % Frame location faulty orientation
 
-num_rt = 1;
-rt = 20;
-Pos = 3;
+%num_rt = 1;
+%rt = 20;
+%Pos = 4;
 
 % Create test reference image
 I0 = zeros(r,c);
@@ -30,11 +30,14 @@ A = repmat(I,1,1,N);
 
 % Create fault image by rotation
 figure;
+%subplot(length(sz1)+1,1,1)
+imshow(I)
 for ii = 1:length(rt)
     I_r = imrotate(I0, rt(ii), 'bilinear', 'crop'); % Rotate image
     I_r = imnoise(I_r,'gaussian', M, V); % Add gaussian noise
     A(:,:,Pos(ii)) = I_r;
-    subplot(length(rt),1,ii)
+    %subplot(length(rt),1,ii)
+    figure
     imshow(A(:,:,Pos(ii)))
     title({['Orientation = ',num2str(rt(ii)),'\circ'];['Frame = ', num2str(Pos(ii))]})
 end
