@@ -27,3 +27,4 @@
 *.nav
 *.snm
 *.synctex(busy)
+.gitignore
